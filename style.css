@@ -117,3 +117,47 @@ h1 {
   font-size: 16px;
   cursor: pointer;
 }
+/* ホーム画面 */
+#homeScreen {
+  text-align: center;
+  padding: 20px;
+}
+
+/* シムさん画像 */
+#simImage {
+  width: 180px;
+  max-width: 80%;
+  margin: 20px auto;
+}
+
+/* タイトル */
+#homeScreen h1 {
+  font-size: 24px;
+  line-height: 1.5;
+}
+
+/* 説明文 */
+#homeScreen p {
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+
+/* クイズ開始ボタン */
+#startButton {
+  display: block;
+  margin: 25px auto;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 30px;
+  background: #f7b6d2;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+
+/* クイズ画面 */
+#quiz {
+  text-align: center;
+  padding: 20px;
+}
