@@ -167,3 +167,144 @@ h1 {
   }
 
 }
+/* Google Fontsから可愛くて丸みのあるフォント（M PLUS Rounded 1c）を読み込み */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap');
+
+/* 全体の基本設定 */
+body {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background-color: #fff9f9; /* ほんのりピンクがかった温かみのある白 */
+  color: #5a4b41; /* 優しめのダークブラウン */
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* アプリ全体のカード型コンテナ */
+#homeScreen, .quiz-box {
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 32px 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(235, 180, 190, 0.25); /* やわらかいピンクの影 */
+  border: 3px solid #ffeded;
+  box-sizing: border-box;
+}
+
+/* キャラクター画像 */
+.character {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #ffe3e8;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* タイトル */
+h1 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ff6b81; /* 華やかなチェリーピンク */
+  line-height: 1.4;
+  margin: 10px 0 16px 0;
+}
+
+/* サブタイトル・解説テキスト */
+.subtitle {
+  font-size: 0.95rem;
+  color: #8c7b70;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+/* ボタンの共通スタイル */
+button {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background-color: #ff8e9e; /* メインピンク */
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 28px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 0 #e66a7c; /* ぷっくり立体感 */
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ボタンを押したときの動き */
+button:hover {
+  background-color: #ff788c;
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #e66a7c;
+}
+
+/* クイズ画面固有のスタイル */
+h2#question {
+  font-size: 1.25rem;
+  color: #4a3e3d;
+  margin-bottom: 24px;
+  line-height: 1.5;
+  background: #fff0f3;
+  padding: 16px;
+  border-radius: 16px;
+}
+
+/* 選択肢ボタンエリア */
+#choices {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* 選択肢ボタン専用デザイン */
+#choices button {
+  background-color: #fff9fb;
+  color: #5a4b41;
+  border: 2px solid #ffd8e0;
+  box-shadow: 0 4px 0 #f0c2cb;
+  text-align: left;
+  padding: 12px 20px;
+}
+
+#choices button:hover {
+  background-color: #ffeef2;
+  border-color: #ffb6c1;
+}
+
+/* スコア表示 */
+#score {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ff6b81;
+  margin: 16px 0 8px 0;
+}
+
+/* 「次へ」ボタン */
+#nextButton {
+  background-color: #7bd3cb; /* アクセントカラーの爽やかなミントグリーン */
+  box-shadow: 0 6px 0 #5bbab2;
+}
+
+#nextButton:hover {
+  background-color: #6bc2ba;
+}
+
+#nextButton:active {
+  box-shadow: 0 2px 0 #5bbab2;
+}
