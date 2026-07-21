@@ -1,135 +1,120 @@
 let questions = [];
-let quiz = [];
-let current = 0;
+let quizQuestions = [];
+let currentIndex = 0;
 let score = 0;
 
-const startButton = document.getElementById("startButton");
-const quizArea = document.getElementById("quiz");
-const question = document.getElementById("question");
-const choices = document.getElementById("choices");
-const result = document.getElementById("result");
-const explanation = document.getElementById("explanation");
-const scoreLabel = document.getElementById("score");
+const questionText = document.getElementById("question");
+const choicesBox = document.getElementById("choices");
+const scoreText = document.getElementById("score");
 const nextButton = document.getElementById("nextButton");
-const homeButton = document.getElementById("homeButton");
 
+// 問題データ読み込み
 fetch("questions.json")
-.then(res => res.json())
-.then(data => {
+  .then(response => response.json())
+  .then(data => {
     questions = data;
-});
 
-startButton.addEventListener("click", () => {
-
-    score = 0;
-    current = 0;
-
-    quiz = [...questions]
-        .sort(() => Math.random() - 0.5)
-        .slice(0,10);
-
-    startButton.style.display = "none";
-    quizArea.style.display = "block";
+    // 10問ランダム出題
+    quizQuestions = [...questions]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 10);
 
     showQuestion();
+  })
+  .catch(error => {
+    questionText.textContent = "問題データを読み込めませんでした";
+    console.error(error);
+  });
 
-});
 
-function showQuestion(){
+// 問題表示
+function showQuestion() {
 
-    scoreLabel.textContent =
-        `現在の得点：${score} / ${quiz.length}`;
+  const q = quizQuestions[currentIndex];
 
-    result.textContent = "";
-    explanation.textContent = "";
-    nextButton.style.display = "none";
+  questionText.textContent =
+    `${currentIndex + 1}問目：${q.question}`;
 
-    const q = quiz[current];
+  choicesBox.innerHTML = "";
 
-    question.textContent =
-        `第${current+1}問\n${q.question}`;
+  q.choices.forEach(choice => {
 
-    choices.innerHTML = "";
+    const button = document.createElement("button");
 
-    q.choices.forEach(choice=>{
+    button.textContent = choice;
 
-        const btn = document.createElement("button");
+    button.className = "choiceButton";
 
-        btn.textContent = choice;
+    button.onclick = () => checkAnswer(button, choice);
 
-        btn.onclick = ()=>checkAnswer(choice);
+    choicesBox.appendChild(button);
 
-        choices.appendChild(btn);
+  });
 
-    });
+  nextButton.style.display = "none";
 
-}function checkAnswer(choice){
+  scoreText.textContent =
+    `現在の得点：${score} / 10`;
+}
 
-    const q = quiz[current];
 
-    const buttons = choices.querySelectorAll("button");
+// 正解判定
+function checkAnswer(button, choice) {
 
-    buttons.forEach(btn=>{
-        btn.disabled = true;
+  const correct =
+    quizQuestions[currentIndex].answer;
 
-        if(btn.textContent===q.answer){
-            btn.style.background="#90EE90";
-        }
+  const buttons =
+    document.querySelectorAll(".choiceButton");
 
-        if(btn.textContent===choice && choice!==q.answer){
-            btn.style.background="#FFB6C1";
-        }
-    });
+  buttons.forEach(btn => {
+    btn.disabled = true;
 
-    if(choice===q.answer){
-        score++;
-        result.textContent="⭕ 正解！";
-    }else{
-        result.textContent=`❌ 不正解（正解：${q.answer}）`;
+    if(btn.textContent === correct){
+      btn.style.fontWeight = "bold";
     }
+  });
 
-    explanation.textContent=q.explanation;
 
-    scoreLabel.textContent=`現在の得点：${score} / ${quiz.length}`;
+  if(choice === correct){
 
-    nextButton.style.display="block";
+    button.textContent += " ◎ 正解！";
+    score++;
+
+  } else {
+
+    button.textContent += " ✕";
+
+  }
+
+
+  scoreText.textContent =
+    `現在の得点：${score} / 10`;
+
+  nextButton.style.display = "block";
 
 }
 
-nextButton.addEventListener("click",()=>{
 
-    current++;
+// 次の問題
+nextButton.onclick = () => {
 
-    if(current>=quiz.length){
+  currentIndex++;
 
-        question.textContent="お疲れさまでした！";
-
-        choices.innerHTML="";
-
-        result.innerHTML=`<h2>あなたの得点は ${score} / ${quiz.length} 点でした！🎉</h2>`;
-
-        explanation.textContent="また挑戦してくださいね♪";
-
-        nextButton.style.display="none";
-
-        return;
-
-    }
+  if(currentIndex < quizQuestions.length){
 
     showQuestion();
 
-});
+  } else {
 
-homeButton.addEventListener("click",()=>{
+    questionText.textContent =
+      "🎉 クイズ終了！";
 
-    quizArea.style.display="none";
+    choicesBox.innerHTML =
+      `<p>あなたの得点は ${score} / 10 点でした！</p>`;
 
-    startButton.style.display="block";
+    nextButton.style.display = "none";
 
-    result.textContent="";
+  }
 
-    explanation.textContent="";
-
-    choices.innerHTML="";
-
-});
+};
