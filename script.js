@@ -2,7 +2,7 @@ let questions = [];
 let quizQuestions = [];
 let currentIndex = 0;
 let score = 0;
-
+const homeButton = document.getElementById("homeButton");
 const questionText = document.getElementById("question");
 const choicesBox = document.getElementById("choices");
 const scoreText = document.getElementById("score");
