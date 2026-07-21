@@ -274,3 +274,19 @@ nextButton.style.display="none";
 
 
 };
+// 戻るボタン
+
+homeButton.addEventListener("click",()=>{
+
+  quiz.style.display="none";
+
+  homeScreen.style.display="block";
+
+  currentIndex=0;
+
+  score=0;
+
+  scoreText.textContent =
+  "現在の得点：0 / 10";
+
+});
