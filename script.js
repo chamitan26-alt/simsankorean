@@ -4,7 +4,7 @@ let currentIndex = 0;
 let score = 0;
 let loaded = false;
 
-
+const homeButton = document.getElementById("homeButton");
 const homeScreen = document.getElementById("homeScreen");
 const startButton = document.getElementById("startButton");
 
