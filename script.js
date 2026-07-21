@@ -290,3 +290,21 @@ homeButton.addEventListener("click",()=>{
   "現在の得点：0 / 10";
 
 });
+// 戻るボタン
+const homeButton = document.getElementById("homeButton");
+
+homeButton.addEventListener("click", () => {
+
+  quiz.style.display = "none";
+
+  homeScreen.style.display = "block";
+
+  nextButton.style.display = "block";
+
+  score = 0;
+  currentIndex = 0;
+
+  scoreText.textContent =
+    "現在の得点：0 / 10";
+
+});
