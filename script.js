@@ -196,3 +196,15 @@ nextButton.onclick = () => {
 homeButton.addEventListener("click", () => {
   location.reload();
 });
+const homeScreen = document.getElementById("homeScreen");
+const startButton = document.getElementById("startButton");
+
+
+startButton.addEventListener("click", () => {
+
+  homeScreen.style.display = "none";
+  quiz.style.display = "block";
+
+  startQuiz();
+
+});
