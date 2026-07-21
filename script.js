@@ -193,3 +193,6 @@ nextButton.onclick = () => {
 
 
 };
+homeButton.addEventListener("click", () => {
+  location.reload();
+});
