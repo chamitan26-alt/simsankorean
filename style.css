@@ -103,3 +103,7 @@ h1 {
   }
 
 }
+#nextButton {
+  display: block;
+  margin: 20px auto;
+}
