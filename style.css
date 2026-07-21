@@ -6,12 +6,16 @@ body {
   padding: 20px;
 }
 
+
+/* タイトル */
 h1 {
   font-size: 24px;
   color: #d66a8c;
   line-height: 1.5;
 }
 
+
+/* サブタイトル */
 .subtitle {
   color: #666;
   font-size: 14px;
@@ -19,9 +23,11 @@ h1 {
 }
 
 
-/* シムさんキャラクター */
-.character {
+/* シムさん画像 */
+#simImage {
   width: 150px;
+  max-width: 80%;
+  display: block;
   margin: 10px auto;
 }
 
@@ -34,6 +40,41 @@ h1 {
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+/* ホーム画面 */
+#homeScreen {
+  text-align: center;
+  padding: 20px;
+}
+
+
+#homeScreen h1 {
+  font-size: 24px;
+  color: #d66a8c;
+  line-height: 1.5;
+}
+
+
+#homeScreen p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #666;
+}
+
+
+/* クイズ開始ボタン */
+#startButton {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 25px;
+  background: #ffd6e5;
+  color: #555;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 
@@ -75,7 +116,8 @@ h1 {
 
 /* 次へボタン */
 #nextButton {
-  margin-top: 15px;
+  display: block;
+  margin: 20px auto;
   padding: 12px 30px;
   border: none;
   border-radius: 25px;
@@ -85,28 +127,7 @@ h1 {
 }
 
 
-/* スマホ対応 */
-@media screen and (max-width:600px){
-
-  h1 {
-    font-size: 21px;
-  }
-
-  .quiz-box {
-    width: 90%;
-    padding: 15px;
-  }
-
-  .choiceButton {
-    width: 100%;
-    font-size: 15px;
-  }
-
-}
-#nextButton {
-  display: block;
-  margin: 20px auto;
-}
+/* 最初に戻るボタン */
 #homeButton {
   display: block;
   margin: 20px auto;
@@ -117,47 +138,32 @@ h1 {
   font-size: 16px;
   cursor: pointer;
 }
-/* ホーム画面 */
-#homeScreen {
-  text-align: center;
-  padding: 20px;
-}
-
-/* シムさん画像 */
-#simImage {
-  width: 180px;
-  max-width: 80%;
-  margin: 20px auto;
-}
-
-/* タイトル */
-#homeScreen h1 {
-  font-size: 24px;
-  line-height: 1.5;
-}
-
-/* 説明文 */
-#homeScreen p {
-  font-size: 16px;
-  line-height: 1.8;
-}
-
-
-/* クイズ開始ボタン */
-#startButton {
-  display: block;
-  margin: 25px auto;
-  padding: 14px 30px;
-  border: none;
-  border-radius: 30px;
-  background: #f7b6d2;
-  font-size: 18px;
-  font-weight: bold;
-}
 
 
 /* クイズ画面 */
 #quiz {
   text-align: center;
   padding: 20px;
+}
+
+
+/* スマホ対応 */
+@media screen and (max-width:600px){
+
+  h1 {
+    font-size: 21px;
+  }
+
+
+  .quiz-box {
+    width: 90%;
+    padding: 15px;
+  }
+
+
+  .choiceButton {
+    width: 100%;
+    font-size: 15px;
+  }
+
 }
