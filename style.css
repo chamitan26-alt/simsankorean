@@ -1,143 +1,143 @@
-/* ===========================
-   全体
-=========================== */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap');
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "M PLUS Rounded 1c", sans-serif;
-  background: linear-gradient(#fff8fc, #ffeef5);
-  text-align: center;
+/* ---------------- 全体 ---------------- */
+
+*{
+    box-sizing:border-box;
 }
 
-/* ===========================
-   トップ画面
-=========================== */
-
-#homeScreen {
-  padding: 20px;
+body{
+    margin:0;
+    font-family:"M PLUS Rounded 1c",sans-serif;
+    background:linear-gradient(180deg,#fff8fb,#ffeef5);
+    color:#444;
 }
 
-/* シムさん画像 */
-.character {
-  width: 150px;
-  max-width: 45%;
-  height: auto;
-  display: block;
-  margin: 0 auto 15px;
+#quizApp{
+    max-width:600px;
+    margin:25px auto;
+    padding:20px;
+    background:#ffffff;
+    border-radius:25px;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+    text-align:center;
 }
 
-/* タイトル */
-#homeScreen h1 {
-  font-size: 32px;
-  color: #ff6b81;
-  margin: 10px 0;
-  line-height: 1.4;
+/* ---------------- タイトル ---------------- */
+
+h1{
+    font-size:2rem;
+    color:#ff6b9a;
+    margin:10px 0 15px;
+    line-height:1.4;
+    font-weight:800;
 }
 
-/* サブタイトル */
-.subtitle {
-  font-size: 18px;
-  color: #666;
-  margin-bottom: 25px;
-  line-height: 1.7;
+/* ---------------- シムさん ---------------- */
+
+.character{
+    display:block;
+    width:170px;
+    max-width:55%;
+    height:auto;
+    margin:0 auto 20px;
 }
 
-/* ===========================
-   ボタン
-=========================== */
+/* ---------------- 説明 ---------------- */
 
-button {
-  background: #ff8fb1;
-  color: white;
-  border: none;
-  border-radius: 15px;
-  padding: 14px 28px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: 0.3s;
+.subtitle{
+    font-size:1.05rem;
+    color:#666;
+    line-height:1.8;
+    margin-bottom:25px;
 }
 
-button:hover {
-  background: #ff6b81;
+/* ---------------- ボタン ---------------- */
+
+button{
+    background:#ff7da7;
+    color:#fff;
+    border:none;
+    border-radius:50px;
+    padding:14px 28px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
 }
 
-/* 選択肢ボタン */
-
-.choiceButton {
-  display: block;
-  width: 90%;
-  max-width: 420px;
-  margin: 10px auto;
+button:hover{
+    transform:translateY(-2px);
+    background:#ff5c90;
 }
 
-/* 次へボタン */
-
-#nextButton {
-  display: none;
-  margin: 20px auto;
+.choiceButton{
+    display:block;
+    width:100%;
+    margin:10px 0;
 }
 
-/* 戻るボタン */
-
-#homeButton {
-  margin-top: 25px;
+#nextButton{
+    display:none;
+    margin-top:20px;
 }
 
-/* ===========================
-   クイズ画面
-=========================== */
-
-#quiz {
-  display: none;
-  padding: 20px;
+#homeButton{
+    margin-top:15px;
+    background:#888;
 }
 
-#question {
-  font-size: 24px;
-  line-height: 1.6;
-  margin-bottom: 20px;
+/* ---------------- クイズ ---------------- */
+
+#question{
+    font-size:1.4rem;
+    line-height:1.6;
+    margin-bottom:20px;
 }
 
-#score {
-  font-size: 20px;
-  color: #ff6b81;
-  font-weight: bold;
+#score{
+    color:#ff5c90;
+    font-size:1.2rem;
+    font-weight:bold;
 }
 
-.explanation {
-  margin-top: 20px;
-  background: #fff9d8;
-  border-radius: 12px;
-  padding: 15px;
-  line-height: 1.7;
+.explanation{
+    background:#fff8d9;
+    border-radius:15px;
+    padding:15px;
+    margin-top:20px;
+    line-height:1.8;
+    text-align:left;
 }
 
-/* ===========================
-   スマホ対応
-=========================== */
+/* ---------------- スマホ ---------------- */
 
-@media (max-width: 600px) {
+@media(max-width:600px){
 
-  .character {
-    width: 120px;
-  }
+#quizApp{
+    margin:10px;
+    padding:18px;
+}
 
-  #homeScreen h1 {
-    font-size: 26px;
-  }
+h1{
+    font-size:1.6rem;
+}
 
-  .subtitle {
-    font-size: 16px;
-  }
+.character{
+    width:130px;
+}
 
-  button {
-    font-size: 16px;
-    padding: 12px 22px;
-  }
+.subtitle{
+    font-size:.95rem;
+}
 
-  #question {
-    font-size: 20px;
-  }
+button{
+    width:100%;
+    font-size:17px;
+}
+
+#question{
+    font-size:1.2rem;
+}
 
 }
