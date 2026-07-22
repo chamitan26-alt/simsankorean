@@ -1,154 +1,143 @@
-let questions = [];
-let quizQuestions = [];
-let currentIndex = 0;
-let score = 0;
-let loaded = false;
+/* ===========================
+   全体
+=========================== */
 
-// HTML要素の取得
-const homeButton = document.getElementById("homeButton");
-const homeScreen = document.getElementById("homeScreen");
-const startButton = document.getElementById("startButton");
-
-const quiz = document.getElementById("quiz");
-const questionText = document.getElementById("question");
-const choicesBox = document.getElementById("choices");
-const scoreText = document.getElementById("score");
-const nextButton = document.getElementById("nextButton");
-
-// 1. 問題データ（questions.json）の読み込み
-fetch("./questions.json")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("questions.jsonが見つかりません");
-    }
-    return response.json();
-  })
-  .then(data => {
-    questions = data;
-    loaded = true;
-  })
-  .catch(error => {
-    questionText.textContent = "問題データを読み込めません";
-    console.error(error);
-  });
-
-// 2. クイズ開始ボタンの挙動
-startButton.addEventListener("click", () => {
-  if (!loaded) {
-    alert("問題を読み込み中です。少し待ってから再度お試しください。");
-    return;
-  }
-
-  homeScreen.style.display = "none";
-  quiz.style.display = "block";
-
-  startQuiz();
-});
-
-// 3. クイズ初期化処理
-function startQuiz() {
-  // 10問題をランダム抽出
-  quizQuestions = [...questions]
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 10);
-
-  currentIndex = 0;
-  score = 0;
-
-  scoreText.textContent = "現在の得点：0 / 10";
-  showQuestion();
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  background: linear-gradient(#fff8fc, #ffeef5);
+  text-align: center;
 }
 
-// 4. 問題表示処理
-function showQuestion() {
-  const currentQuestion = quizQuestions[currentIndex];
+/* ===========================
+   トップ画面
+=========================== */
 
-  // 問題文のセット
-  questionText.textContent = currentQuestion.question;
-  choicesBox.innerHTML = "";
-
-  // 解答するまでは「次へ」ボタンを隠す
-  nextButton.style.display = "none";
-
-  // 選択肢ボタンの生成
-  currentQuestion.choices.forEach(choice => {
-    const button = document.createElement("button");
-    button.textContent = choice;
-    button.className = "choiceButton";
-
-    button.onclick = () => {
-      // 全ての選択肢ボタンを無効化（連打防止）
-      document.querySelectorAll("#choices button").forEach(btn => {
-        btn.disabled = true;
-      });
-
-      // 正誤判定
-      if (choice === currentQuestion.answer) {
-        score++;
-        scoreText.textContent = `現在の得点：${score} / 10`;
-        questionText.innerHTML = "⭕ 正解！<br><br>" + currentQuestion.question;
-      } else {
-        questionText.innerHTML = 
-          "❌ 不正解<br><br>" + 
-          "正解は「" + currentQuestion.answer + "」です";
-      }
-
-      // 解説の表示
-      if (currentQuestion.explanation) {
-        const explanation = document.createElement("p");
-        explanation.className = "explanation";
-        explanation.innerHTML = "💡 <b>解説</b><br>" + currentQuestion.explanation;
-        choicesBox.appendChild(explanation);
-      }
-
-      // 回答後に「次へ」ボタンを表示
-      nextButton.style.display = "block";
-    };
-
-    choicesBox.appendChild(button);
-  });
+#homeScreen {
+  padding: 20px;
 }
 
-// 5. 「次へ」ボタンの挙動
-nextButton.onclick = () => {
-  currentIndex++;
-
-  if (currentIndex < quizQuestions.length) {
-    showQuestion();
-  } else {
-    // クイズ終了画面の処理
-    questionText.innerHTML = "🎉 クイズ終了！";
-    choicesBox.innerHTML = `
-      <p style="font-size: 1.2rem; font-weight: bold; line-height: 1.6;">
-        あなたの最終得点は<br>
-        <span style="font-size: 1.8rem; color: #ff6b81;">${score} / 10点</span> です！
-      </p>
-    `;
-    scoreText.style.display = "none";
-    nextButton.style.display = "none";
-  }
-};
-
-// 6. 「← 戻る」ボタンの挙動
-homeButton.addEventListener("click", () => {
-  quiz.style.display = "none";
-  homeScreen.style.display = "block";
-
-  // 状態のリセット
-  currentIndex = 0;
-  score = 0;
-  scoreText.textContent = "現在の得点：0 / 10";
-  scoreText.style.display = "block";
-});
-/* すべての画像を親要素の幅に収める設定 */
-img {
-  max-width: 100%;
-  height: auto;
-}
-/* シムさんの画像 */
+/* シムさん画像 */
 .character {
-  width: 160px;      /* 好きな大きさに変更 */
+  width: 150px;
+  max-width: 45%;
   height: auto;
   display: block;
+  margin: 0 auto 15px;
+}
+
+/* タイトル */
+#homeScreen h1 {
+  font-size: 32px;
+  color: #ff6b81;
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+/* サブタイトル */
+.subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 25px;
+  line-height: 1.7;
+}
+
+/* ===========================
+   ボタン
+=========================== */
+
+button {
+  background: #ff8fb1;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 14px 28px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #ff6b81;
+}
+
+/* 選択肢ボタン */
+
+.choiceButton {
+  display: block;
+  width: 90%;
+  max-width: 420px;
+  margin: 10px auto;
+}
+
+/* 次へボタン */
+
+#nextButton {
+  display: none;
   margin: 20px auto;
+}
+
+/* 戻るボタン */
+
+#homeButton {
+  margin-top: 25px;
+}
+
+/* ===========================
+   クイズ画面
+=========================== */
+
+#quiz {
+  display: none;
+  padding: 20px;
+}
+
+#question {
+  font-size: 24px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+#score {
+  font-size: 20px;
+  color: #ff6b81;
+  font-weight: bold;
+}
+
+.explanation {
+  margin-top: 20px;
+  background: #fff9d8;
+  border-radius: 12px;
+  padding: 15px;
+  line-height: 1.7;
+}
+
+/* ===========================
+   スマホ対応
+=========================== */
+
+@media (max-width: 600px) {
+
+  .character {
+    width: 120px;
+  }
+
+  #homeScreen h1 {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 12px 22px;
+  }
+
+  #question {
+    font-size: 20px;
+  }
+
 }
