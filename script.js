@@ -64,14 +64,18 @@ function showQuestion() {
   const currentQuestion = quizQuestions[currentIndex];
 
   // 問題文のセット
-  questionText.textContent = currentQuestion.question;
-  choicesBox.innerHTML = "";
+ // 問題文のセット
+questionText.textContent = currentQuestion.question;
+choicesBox.innerHTML = "";
 
-  // 解答するまでは「次へ」ボタンを隠す
-  nextButton.style.display = "none";
+// 解答するまでは「次へ」ボタンを隠す
+nextButton.style.display = "none";
 
-  // 選択肢ボタンの生成
-  currentQuestion.choices.forEach(choice => {
+// 選択肢をコピーしてシャッフル
+const shuffledChoices = [...currentQuestion.choices].sort(() => Math.random() - 0.5);
+
+// シャッフルした選択肢を表示
+shuffledChoices.forEach(choice => {
     const button = document.createElement("button");
     button.textContent = choice;
     button.className = "choiceButton";
