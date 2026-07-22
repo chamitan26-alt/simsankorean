@@ -141,3 +141,38 @@ button{
 }
 
 }
+#quizApp{
+    max-width:550px;
+    margin:10px auto;
+    padding:15px;
+}
+
+.character{
+    width:120px;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:1.6rem;
+    margin:8px 0;
+}
+
+.subtitle{
+    font-size:0.95rem;
+    margin-bottom:15px;
+}
+
+.choiceButton{
+    padding:10px;
+    margin:6px 0;
+}
+
+.explanation{
+    padding:10px;
+    font-size:0.9rem;
+    margin-top:10px;
+}
+
+button{
+    padding:10px 20px;
+}
