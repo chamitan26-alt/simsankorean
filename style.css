@@ -1,151 +1,142 @@
-/* 1. フォントの読み込み（※必ず一番上に記述） */
-@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap');
+let questions = [];
+let quizQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let loaded = false;
 
-/* 全体の基本設定 */
-body {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  background-color: #fff9f9; /* ほんのりピンクがかった温かみのある白 */
-  color: #5a4b41; /* 優しめのダークブラウン */
-  margin: 0;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  box-sizing: border-box;
+// HTML要素の取得
+const homeButton = document.getElementById("homeButton");
+const homeScreen = document.getElementById("homeScreen");
+const startButton = document.getElementById("startButton");
+
+const quiz = document.getElementById("quiz");
+const questionText = document.getElementById("question");
+const choicesBox = document.getElementById("choices");
+const scoreText = document.getElementById("score");
+const nextButton = document.getElementById("nextButton");
+
+// 1. 問題データ（questions.json）の読み込み
+fetch("./questions.json")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("questions.jsonが見つかりません");
+    }
+    return response.json();
+  })
+  .then(data => {
+    questions = data;
+    loaded = true;
+  })
+  .catch(error => {
+    questionText.textContent = "問題データを読み込めません";
+    console.error(error);
+  });
+
+// 2. クイズ開始ボタンの挙動
+startButton.addEventListener("click", () => {
+  if (!loaded) {
+    alert("問題を読み込み中です。少し待ってから再度お試しください。");
+    return;
+  }
+
+  homeScreen.style.display = "none";
+  quiz.style.display = "block";
+
+  startQuiz();
+});
+
+// 3. クイズ初期化処理
+function startQuiz() {
+  // 10問題をランダム抽出
+  quizQuestions = [...questions]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 10);
+
+  currentIndex = 0;
+  score = 0;
+
+  scoreText.textContent = "現在の得点：0 / 10";
+  showQuestion();
 }
 
-/* アプリ全体のコンテナ */
-#quizApp {
-  background: #ffffff;
-  border-radius: 28px;
-  padding: 32px 24px;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 10px 25px rgba(235, 180, 190, 0.25); /* やわらかいピンクの影 */
-  border: 3px solid #ffeded;
-  box-sizing: border-box;
+// 4. 問題表示処理
+function showQuestion() {
+  const currentQuestion = quizQuestions[currentIndex];
+
+  // 問題文のセット
+  questionText.textContent = currentQuestion.question;
+  choicesBox.innerHTML = "";
+
+  // 解答するまでは「次へ」ボタンを隠す
+  nextButton.style.display = "none";
+
+  // 選択肢ボタンの生成
+  currentQuestion.choices.forEach(choice => {
+    const button = document.createElement("button");
+    button.textContent = choice;
+    button.className = "choiceButton";
+
+    button.onclick = () => {
+      // 全ての選択肢ボタンを無効化（連打防止）
+      document.querySelectorAll("#choices button").forEach(btn => {
+        btn.disabled = true;
+      });
+
+      // 正誤判定
+      if (choice === currentQuestion.answer) {
+        score++;
+        scoreText.textContent = `現在の得点：${score} / 10`;
+        questionText.innerHTML = "⭕ 正解！<br><br>" + currentQuestion.question;
+      } else {
+        questionText.innerHTML = 
+          "❌ 不正解<br><br>" + 
+          "正解は「" + currentQuestion.answer + "」です";
+      }
+
+      // 解説の表示
+      if (currentQuestion.explanation) {
+        const explanation = document.createElement("p");
+        explanation.className = "explanation";
+        explanation.innerHTML = "💡 <b>解説</b><br>" + currentQuestion.explanation;
+        choicesBox.appendChild(explanation);
+      }
+
+      // 回答後に「次へ」ボタンを表示
+      nextButton.style.display = "block";
+    };
+
+    choicesBox.appendChild(button);
+  });
 }
 
-/* キャラクター画像 */
-.character {
-  width: 130px;
-  height: 130px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 4px solid #ffe3e8;
-  margin: 0 auto 16px auto;
-  display: block;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-}
+// 5. 「次へ」ボタンの挙動
+nextButton.onclick = () => {
+  currentIndex++;
 
-/* タイトル */
-h1 {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: #ff6b81; /* 華やかなチェリーピンク */
-  line-height: 1.4;
-  margin: 10px 0 16px 0;
-}
+  if (currentIndex < quizQuestions.length) {
+    showQuestion();
+  } else {
+    // クイズ終了画面の処理
+    questionText.innerHTML = "🎉 クイズ終了！";
+    choicesBox.innerHTML = `
+      <p style="font-size: 1.2rem; font-weight: bold; line-height: 1.6;">
+        あなたの最終得点は<br>
+        <span style="font-size: 1.8rem; color: #ff6b81;">${score} / 10点</span> です！
+      </p>
+    `;
+    scoreText.style.display = "none";
+    nextButton.style.display = "none";
+  }
+};
 
-/* サブタイトル・解説テキスト */
-.subtitle {
-  font-size: 0.95rem;
-  color: #8c7b70;
-  line-height: 1.6;
-  margin-bottom: 28px;
-}
+// 6. 「← 戻る」ボタンの挙動
+homeButton.addEventListener("click", () => {
+  quiz.style.display = "none";
+  homeScreen.style.display = "block";
 
-/* ボタンの共通スタイル */
-button {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  background-color: #ff8e9e; /* メインピンク */
-  color: #ffffff;
-  border: none;
-  border-radius: 50px;
-  padding: 14px 28px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 6px 0 #e66a7c; /* ぷっくり立体感 */
-  width: 100%;
-  margin-top: 12px;
-  box-sizing: border-box;
-}
-
-/* ボタンを押したときの動き */
-button:hover {
-  background-color: #ff788c;
-  transform: translateY(-2px);
-}
-
-button:active {
-  transform: translateY(4px);
-  box-shadow: 0 2px 0 #e66a7c;
-}
-
-/* クイズ画面固有のスタイル */
-h2#question {
-  font-size: 1.25rem;
-  color: #4a3e3d;
-  margin-bottom: 24px;
-  line-height: 1.5;
-  background: #fff0f3;
-  padding: 16px;
-  border-radius: 16px;
-}
-
-/* 選択肢ボタンエリア */
-#choices {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-/* 選択肢ボタン専用デザイン */
-#choices button {
-  background-color: #fff9fb;
-  color: #5a4b41;
-  border: 2px solid #ffd8e0;
-  box-shadow: 0 4px 0 #f0c2cb;
-  text-align: center;
-  padding: 12px 20px;
-  margin-top: 0;
-}
-
-#choices button:hover {
-  background-color: #ffeef2;
-  border-color: #ffb6c1;
-}
-
-/* スコア表示 */
-#score {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #ff6b81;
-  margin: 16px 0 8px 0;
-}
-
-/* 「次へ」ボタン */
-#nextButton {
-  background-color: #7bd3cb; /* アクセントカラーの爽やかなミントグリーン */
-  box-shadow: 0 6px 0 #5bbab2;
-}
-
-#nextButton:hover {
-  background-color: #6bc2ba;
-}
-
-#nextButton:active {
-  box-shadow: 0 2px 0 #5bbab2;
-}
-
-/* 「← 戻る」ボタン */
-#homeButton {
-  background-color: #f8c8dc;
-  color: #555;
-  box-shadow: 0 6px 0 #dca8bc;
-}
+  // 状態のリセット
+  currentIndex = 0;
+  score = 0;
+  scoreText.textContent = "現在の得点：0 / 10";
+  scoreText.style.display = "block";
+});
