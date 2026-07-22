@@ -145,3 +145,10 @@ img {
   max-width: 100%;
   height: auto;
 }
+/* シムさんの画像 */
+.character {
+  width: 160px;      /* 好きな大きさに変更 */
+  height: auto;
+  display: block;
+  margin: 20px auto;
+}
