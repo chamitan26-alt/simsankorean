@@ -132,6 +132,10 @@ nextButton.onclick = () => {
 
 // 6. 「← 戻る」ボタンの挙動
 homeButton.addEventListener("click", () => {
+
+  // シムさんを元に戻す
+  document.getElementById("simImage").src = "shimsan.png";
+
   quiz.style.display = "none";
   homeScreen.style.display = "block";
 
