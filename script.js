@@ -118,6 +118,7 @@ nextButton.onclick = () => {
   } else {
     // クイズ終了画面の処理
     questionText.innerHTML = "🎉 クイズ終了！";
+    document.getElementById("simImage").src = "shimsan2.png";
     choicesBox.innerHTML = `
       <p style="font-size: 1.2rem; font-weight: bold; line-height: 1.6;">
         あなたの最終得点は<br>
