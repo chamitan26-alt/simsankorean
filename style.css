@@ -140,3 +140,8 @@ homeButton.addEventListener("click", () => {
   scoreText.textContent = "現在の得点：0 / 10";
   scoreText.style.display = "block";
 });
+/* すべての画像を親要素の幅に収める設定 */
+img {
+  max-width: 100%;
+  height: auto;
+}
