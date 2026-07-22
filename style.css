@@ -1,173 +1,4 @@
-body {
-  font-family: "Arial", "Noto Sans JP", sans-serif;
-  text-align: center;
-  background: #fff8f5;
-  margin: 0;
-  padding: 20px;
-}
-
-
-/* タイトル */
-h1 {
-  font-size: 24px;
-  color: #d66a8c;
-  line-height: 1.5;
-}
-
-
-/* サブタイトル */
-.subtitle {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-
-/* シムさん画像 */
-#simImage {
-  width: 150px;
-  max-width: 80%;
-  display: block;
-  margin: 10px auto;
-}
-
-
-/* クイズカード */
-.quiz-box {
-  background: white;
-  max-width: 400px;
-  margin: auto;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-
-/* ホーム画面 */
-#homeScreen {
-  text-align: center;
-  padding: 20px;
-}
-
-
-#homeScreen h1 {
-  font-size: 24px;
-  color: #d66a8c;
-  line-height: 1.5;
-}
-
-
-#homeScreen p {
-  font-size: 16px;
-  line-height: 1.8;
-  color: #666;
-}
-
-
-/* クイズ開始ボタン */
-#startButton {
-  display: block;
-  margin: 20px auto;
-  padding: 12px 28px;
-  border: none;
-  border-radius: 25px;
-  background: #ffd6e5;
-  color: #555;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-
-/* 問題 */
-#question {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-
-/* 選択肢 */
-.choiceButton {
-  width: 90%;
-  padding: 12px;
-  margin: 8px auto;
-  display: block;
-  border: none;
-  border-radius: 25px;
-  background: #ffd6e5;
-  color: #555;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-
-.choiceButton:hover {
-  background: #ffb8d1;
-}
-
-
-/* 得点 */
-#score {
-  margin-top: 15px;
-  font-size: 16px;
-  color: #777;
-}
-
-
-/* 次へボタン */
-#nextButton {
-  display: block;
-  margin: 20px auto;
-  padding: 12px 30px;
-  border: none;
-  border-radius: 25px;
-  background: #e98bad;
-  color: white;
-  font-size: 16px;
-}
-
-
-/* 最初に戻るボタン */
-#homeButton {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 25px;
-  border: none;
-  border-radius: 20px;
-  background-color: #f8c8dc;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-
-/* クイズ画面 */
-#quiz {
-  text-align: center;
-  padding: 20px;
-}
-
-
-/* スマホ対応 */
-@media screen and (max-width:600px){
-
-  h1 {
-    font-size: 21px;
-  }
-
-
-  .quiz-box {
-    width: 90%;
-    padding: 15px;
-  }
-
-
-  .choiceButton {
-    width: 100%;
-    font-size: 15px;
-  }
-
-}
-/* Google Fontsから可愛くて丸みのあるフォント（M PLUS Rounded 1c）を読み込み */
+/* 1. フォントの読み込み（※必ず一番上に記述） */
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap');
 
 /* 全体の基本設定 */
@@ -184,8 +15,8 @@ body {
   box-sizing: border-box;
 }
 
-/* アプリ全体のカード型コンテナ */
-#homeScreen, .quiz-box {
+/* アプリ全体のコンテナ */
+#quizApp {
   background: #ffffff;
   border-radius: 28px;
   padding: 32px 24px;
@@ -204,7 +35,8 @@ body {
   object-fit: cover;
   border-radius: 50%;
   border: 4px solid #ffe3e8;
-  margin-bottom: 16px;
+  margin: 0 auto 16px auto;
+  display: block;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
@@ -239,7 +71,8 @@ button {
   transition: all 0.2s ease;
   box-shadow: 0 6px 0 #e66a7c; /* ぷっくり立体感 */
   width: 100%;
-  margin-top: 10px;
+  margin-top: 12px;
+  box-sizing: border-box;
 }
 
 /* ボタンを押したときの動き */
@@ -278,8 +111,9 @@ h2#question {
   color: #5a4b41;
   border: 2px solid #ffd8e0;
   box-shadow: 0 4px 0 #f0c2cb;
-  text-align: left;
+  text-align: center;
   padding: 12px 20px;
+  margin-top: 0;
 }
 
 #choices button:hover {
@@ -307,4 +141,11 @@ h2#question {
 
 #nextButton:active {
   box-shadow: 0 2px 0 #5bbab2;
+}
+
+/* 「← 戻る」ボタン */
+#homeButton {
+  background-color: #f8c8dc;
+  color: #555;
+  box-shadow: 0 6px 0 #dca8bc;
 }
