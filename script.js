@@ -4,6 +4,7 @@ let currentIndex = 0;
 let score = 0;
 let loaded = false;
 
+// HTML要素の取得
 const homeButton = document.getElementById("homeButton");
 const homeScreen = document.getElementById("homeScreen");
 const startButton = document.getElementById("startButton");
@@ -14,297 +15,128 @@ const choicesBox = document.getElementById("choices");
 const scoreText = document.getElementById("score");
 const nextButton = document.getElementById("nextButton");
 
-
-
-// 問題データ読み込み
-
+// 1. 問題データ（questions.json）の読み込み
 fetch("./questions.json")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("questions.jsonが見つかりません");
+    }
+    return response.json();
+  })
+  .then(data => {
+    questions = data;
+    loaded = true;
+  })
+  .catch(error => {
+    questionText.textContent = "問題データを読み込めません";
+    console.error(error);
+  });
 
-.then(response => {
-
-  if(!response.ok){
-
-    throw new Error("questions.jsonが見つかりません");
-
+// 2. クイズ開始ボタンの挙動
+startButton.addEventListener("click", () => {
+  if (!loaded) {
+    alert("問題を読み込み中です。少し待ってから再度お試しください。");
+    return;
   }
 
-  return response.json();
+  homeScreen.style.display = "none";
+  quiz.style.display = "block";
 
-})
-
-
-.then(data => {
-
-  questions = data;
-
-  loaded = true;
-
-  questionText.textContent =
-  "クイズ開始ボタンを押してください";
-
-})
-
-
-.catch(error => {
-
-  questionText.textContent =
-  "問題データを読み込めません";
-
-  console.log(error);
-
+  startQuiz();
 });
 
+// 3. クイズ初期化処理
+function startQuiz() {
+  // 10問題をランダム抽出
+  quizQuestions = [...questions]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 10);
 
+  currentIndex = 0;
+  score = 0;
 
-
-
-// クイズ開始
-
-startButton.addEventListener("click",()=>{
-
-
-if(!loaded){
-
- alert("問題を読み込み中です");
-
- return;
-
+  scoreText.textContent = "現在の得点：0 / 10";
+  showQuestion();
 }
 
+// 4. 問題表示処理
+function showQuestion() {
+  const currentQuestion = quizQuestions[currentIndex];
 
-homeScreen.style.display="none";
+  // 問題文のセット
+  questionText.textContent = currentQuestion.question;
+  choicesBox.innerHTML = "";
 
-quiz.style.display="block";
+  // 解答するまでは「次へ」ボタンを隠す
+  nextButton.style.display = "none";
 
+  // 選択肢ボタンの生成
+  currentQuestion.choices.forEach(choice => {
+    const button = document.createElement("button");
+    button.textContent = choice;
+    button.className = "choiceButton";
 
-startQuiz();
+    button.onclick = () => {
+      // 全ての選択肢ボタンを無効化（連打防止）
+      document.querySelectorAll("#choices button").forEach(btn => {
+        btn.disabled = true;
+      });
 
+      // 正誤判定
+      if (choice === currentQuestion.answer) {
+        score++;
+        scoreText.textContent = `現在の得点：${score} / 10`;
+        questionText.innerHTML = "⭕ 正解！<br><br>" + currentQuestion.question;
+      } else {
+        questionText.innerHTML = 
+          "❌ 不正解<br><br>" + 
+          "正解は「" + currentQuestion.answer + "」です";
+      }
 
-});
+      // 解説の表示
+      if (currentQuestion.explanation) {
+        const explanation = document.createElement("p");
+        explanation.className = "explanation";
+        explanation.innerHTML = "💡 <b>解説</b><br>" + currentQuestion.explanation;
+        choicesBox.appendChild(explanation);
+      }
 
+      // 回答後に「次へ」ボタンを表示
+      nextButton.style.display = "block";
+    };
 
-
-
-
-
-function startQuiz(){
-
-
-quizQuestions =
-[...questions]
-.sort(()=>Math.random()-0.5)
-.slice(0,10);
-
-
-currentIndex = 0;
-
-score = 0;
-
-
-scoreText.textContent =
-"現在の得点：0 / 10";
-
-
-nextButton.style.display="block";
-
-
-showQuestion();
-
-
+    choicesBox.appendChild(button);
+  });
 }
 
+// 5. 「次へ」ボタンの挙動
+nextButton.onclick = () => {
+  currentIndex++;
 
-
-
-
-
-
-function showQuestion(){
-
-
-const currentQuestion =
-quizQuestions[currentIndex];
-
-
-questionText.textContent =
-currentQuestion.question;
-
-
-choicesBox.innerHTML="";
-
-
-
-currentQuestion.choices.forEach(choice=>{
-
-
-const button =
-document.createElement("button");
-
-
-button.textContent = choice;
-
-
-button.className =
-"choiceButton";
-
-
-
-button.onclick = ()=>{
-
-
-document
-.querySelectorAll(".choiceButton")
-.forEach(btn=>{
-
-btn.disabled=true;
-
-});
-
-
-
-if(choice === currentQuestion.answer){
-
-
-score++;
-
-
-scoreText.textContent =
-`現在の得点：${score} / 10`;
-
-
-
-questionText.innerHTML =
-"⭕ 正解！<br><br>" +
-currentQuestion.question;
-
-
-
-}else{
-
-
-questionText.innerHTML =
-"❌ 不正解<br><br>" +
-"正解は「" +
-currentQuestion.answer +
-"」です";
-
-
-}
-
-
-
-
-// 解説表示
-
-if(currentQuestion.explanation){
-
-
-const explanation =
-document.createElement("p");
-
-
-explanation.innerHTML =
-"💡 解説<br>" +
-currentQuestion.explanation;
-
-
-explanation.className =
-"explanation";
-
-
-choicesBox.appendChild(explanation);
-
-
-}
-
-
-
+  if (currentIndex < quizQuestions.length) {
+    showQuestion();
+  } else {
+    // クイズ終了画面の処理
+    questionText.innerHTML = "🎉 クイズ終了！";
+    choicesBox.innerHTML = `
+      <p style="font-size: 1.2rem; font-weight: bold; line-height: 1.6;">
+        あなたの最終得点は<br>
+        <span style="font-size: 1.8rem; color: #ff6b81;">${score} / 10点</span> です！
+      </p>
+    `;
+    scoreText.style.display = "none";
+    nextButton.style.display = "none";
+  }
 };
 
-
-choicesBox.appendChild(button);
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-// 次へ
-
-nextButton.onclick = ()=>{
-
-
-currentIndex++;
-
-
-if(currentIndex < quizQuestions.length){
-
-
-showQuestion();
-
-
-}else{
-
-
-questionText.innerHTML =
-"🎉 クイズ終了！";
-
-
-choicesBox.innerHTML =
-`
-<p>
-あなたの得点は<br>
-${score} / 10点
-</p>
-`;
-
-
-
-nextButton.style.display="none";
-
-
-}
-
-
-};
-// 戻るボタン
-
-homeButton.addEventListener("click",()=>{
-
-  quiz.style.display="none";
-
-  homeScreen.style.display="block";
-
-  currentIndex=0;
-
-  score=0;
-
-  scoreText.textContent =
-  "現在の得点：0 / 10";
-
-});
-// 戻るボタン
-const homeButton = document.getElementById("homeButton");
-
+// 6. 「← 戻る」ボタンの挙動
 homeButton.addEventListener("click", () => {
-
   quiz.style.display = "none";
-
   homeScreen.style.display = "block";
 
-  nextButton.style.display = "block";
-
-  score = 0;
+  // 状態のリセット
   currentIndex = 0;
-
-  scoreText.textContent =
-    "現在の得点：0 / 10";
-
+  score = 0;
+  scoreText.textContent = "現在の得点：0 / 10";
+  scoreText.style.display = "block";
 });
